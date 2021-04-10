@@ -1,0 +1,15 @@
+{
+  "name": "Docker_IoT_Transaction_Submission",
+  "version": "1.0.0",
+  "description": "Node.js sample transaction submission on blockchain",
+  "author": "Farhad Hazrati Eini <f.hazraty@gmail.com>",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.16.1",
+    "fabric-ca-client": "^2.2.4",
+    "fabric-network": "^2.2.4"
+  }
+}
