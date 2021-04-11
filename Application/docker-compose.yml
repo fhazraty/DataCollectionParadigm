@@ -1,0 +1,10 @@
+version: "3.9"  # optional since v1.27.0
+services:
+  web:
+    image: fhazraty/iotsampledevice:1.0
+    ports:
+      - "49160:8080"
+    volumes:
+      - C:/Users/Farhad/go/src/github.com/fhazraty/fabric-samples:/fabric-samples
+    links:
+      - redis

@@ -3,17 +3,20 @@ FROM node:14
 # Create app directory
 WORKDIR /usr/src/app
 
-# Install app dependencies
-# A wildcard is used to ensure both package.json AND package-lock.json are copied
-# where available (npm@5+)
+# Copy all package requirement files
 COPY package*.json ./
 
+# Restore dependancies
 RUN npm install
-# If you are building your code for production
-# RUN npm ci --only=production
 
-# Bundle app source
+# Copy all source codes from local
 COPY . .
 
+RUN apt-get update && apt-get install telnet
+RUN apt-get install -y net-tools
+
+# Expose port 8080 to outside docker container
 EXPOSE 8080
+
+# Run the node js server
 CMD [ "node", "server.js" ]
