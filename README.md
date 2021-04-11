@@ -8,6 +8,9 @@ This repository is created to demostrate the layered architecture which has disc
 Follow the link : 
 https://hyperledger-fabric.readthedocs.io/en/latest/test_network.html
 
+## Add changes to test-network :
+Replace all codes exist in test-network folder to fabric-samples/test-network.
+
 ## The code to run the network :
 Go to the download location of hyperledger fabric test network:
 ```bash
@@ -46,17 +49,23 @@ The address of chaincode on my hard drive is
 
 # Docker container for node js sample code
 For build and create a new docker container run:
+```bash 
 cd /c/DataCollectionParadigm/DataCollectionParadigm/Application
 docker build --force-rm -t 'fhazraty/iotsampledevice:1.0' . 
+```
 
 For create an instance from image run in detach mode:
+```bash 
  docker run -v C:/Users/Farhad/go/src/github.com/fhazraty/fabric-samples:/fabric-samples --name iotcontainer -d -p 49160:8080 fhazraty/iotsampledevice:1.0
+```
 
 
 For create an instance from image run in attach mode:
+```bash 
  docker run -v C:/Users/Farhad/go/src/github.com/fhazraty/fabric-samples:/fabric-samples --name iotcontainer -p 49160:8080 fhazraty/iotsampledevice:1.0
-
+```
 
 For deleting the image run:
+```bash 
 docker image rm fhazraty/iotsampledevice:1.0 -f
-
+```
