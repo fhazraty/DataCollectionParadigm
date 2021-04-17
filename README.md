@@ -11,21 +11,47 @@ https://hyperledger-fabric.readthedocs.io/en/latest/test_network.html
 ## Add changes to test-network :
 Replace all codes exist in test-network folder to fabric-samples/test-network.
 
+
+# Docker container for node js sample code
+For deleting the image run:
+```bash 
+docker image rm fhazraty/iotsampledevice:1.0 -f
+```
+
+For build and create a new docker container run:
+```bash 
+cd /c/DataCollectionParadigm/DataCollectionParadigm/Application
+docker build --force-rm -t 'fhazraty/iotsampledevice:1.0' . 
+```
+
+### Optional
+For create an instance from image run in detach mode:
+```bash 
+ docker run -v C:/Users/Farhad/go/src/github.com/fhazraty/fabric-samples:/fabric-samples --name iotcontainer -d -p 49160:8080 fhazraty/iotsampledevice:1.0
+```
+### Optional
+For create an instance from image run in attach mode:
+```bash 
+ docker run -v C:/Users/Farhad/go/src/github.com/fhazraty/fabric-samples:/fabric-samples --name iotcontainer -p 49160:8080 fhazraty/iotsampledevice:1.0
+```
+
 ## The code to run the network :
 Go to the download location of hyperledger fabric test network:
 ```bash
 cd /c/Users/Farhad/go/src/github.com/fhazraty/fabric-samples/test-network
 ```
 
-Delete all existing network:
+Replace the Testnetwork folder with sample code and then
+
+For deleting all existing network :
 ```bash
 ./network.sh down
 ```
-
 Create a network with certificate authority:
 ```bash
 ./network.sh up -ca
 ```
+### Optional
 If certificate authority did not start use this :
 ```bash
 cd /c/Users/Farhad/go/src/github.com/fhazraty/fabric-samples/test-network
@@ -37,35 +63,20 @@ Create a channel named mychannel:
 ./network.sh createChannel 
 ```
 
-For deploying a chaincode on the network use :
-```bash
-./network.sh deployCC -ccn datacollectionchaincode -ccp /c/DataCollectionParadigm/DataCollectionParadigm/chaincode-go/ -ccl go
-```
-
 The address of chaincode on my hard drive is
 ```bash 
 "/c/DataCollectionParadigm/DataCollectionParadigm/chaincode-go/"
 ```
 
-# Docker container for node js sample code
-For build and create a new docker container run:
-```bash 
-cd /c/DataCollectionParadigm/DataCollectionParadigm/Application
-docker build --force-rm -t 'fhazraty/iotsampledevice:1.0' . 
+For deploying a chaincode on the network use :
+```bash
+./network.sh deployCC -ccn datacollectionchaincode -ccp /c/DataCollectionParadigm/DataCollectionParadigm/chaincode-go/ -ccl go
 ```
 
-For create an instance from image run in detach mode:
-```bash 
- docker run -v C:/Users/Farhad/go/src/github.com/fhazraty/fabric-samples:/fabric-samples --name iotcontainer -d -p 49160:8080 fhazraty/iotsampledevice:1.0
-```
-
-
-For create an instance from image run in attach mode:
-```bash 
- docker run -v C:/Users/Farhad/go/src/github.com/fhazraty/fabric-samples:/fabric-samples --name iotcontainer -p 49160:8080 fhazraty/iotsampledevice:1.0
-```
-
-For deleting the image run:
-```bash 
-docker image rm fhazraty/iotsampledevice:1.0 -f
-```
+For testing the network, channel and application open links below in browser:
+Init ledger :
+http://localhost:49160/init?userIdItem=farhad4
+Add new Item :
+http://localhost:49160/register?userIdItem=farhad3&itemId=Item3&itemValue=mamad3
+Read all submitted data :
+http://localhost:49160/readAllData?userIdItem=farhad4

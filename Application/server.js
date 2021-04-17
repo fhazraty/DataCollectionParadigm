@@ -43,12 +43,12 @@ async function createItem(req, res){
 			const network = await gateway.getNetwork(channelName);
 			const contract = network.getContract(chaincodeName);           
 			await contract.submitTransaction('CreateDataItem', req.query.itemId, req.query.itemValue)
-			req.send('Transaction submitted...');
+			res.send('Transaction submitted...');
 		} finally {
 			gateway.disconnect();
 		}
 	} catch (error) {
-		req.send(`******** FAILED to Create DataItem: ${error}`);
+		res.send(`******** FAILED to Create DataItem: ${error}`);
 	}
 }
 async function init(req, res){
