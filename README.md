@@ -3,7 +3,6 @@ This repository is created to demostrate the layered architecture which has disc
 
 #Automated data gathering in blockchain to use in higher levels of decision-making
 
-
 ## Full detail for starting a hyperledger test network
 Follow the link : 
 https://hyperledger-fabric.readthedocs.io/en/latest/test_network.html
@@ -75,8 +74,16 @@ For deploying a chaincode on the network use :
 
 For testing the network, channel and application open links below in browser:
 Init ledger :
-http://localhost:49160/init?userIdItem=farhad4
+```bash
+http://localhost:49160/init?userIdItem={Username}
+```
+
 Add new Item :
-http://localhost:49160/register?userIdItem=farhad3&itemId=Item3&itemValue=mamad3
+```bash
+http://localhost:49160/createItem?userIdItem={Username}&itemId={ItemId}&itemValue={ItemValue}
+```
+
 Read all submitted data :
-http://localhost:49160/readAllData?userIdItem=farhad4
+```bash
+http://localhost:49160/readAllData?userIdItem={Username}
+```
