@@ -127,6 +127,46 @@ async function readAllData(req, res){
   console.log('End of read all data....');
 }
 
+async function insertTransactions(req,res){
+	try {
+		const ccp = buildCCPOrg1();
+		const caClient = buildCAClient(FabricCAServices, ccp, 'ca.org1.example.com');
+		const wallet = await buildWallet(Wallets, walletPath);
+		try{
+			await enrollAdmin(caClient, wallet, mspOrg1);
+		} catch (error2) {
+			console.log(`******** FAILED to run the application: ${error2}`);
+		}
+		try{
+			await registerAndEnrollUser(caClient, wallet, mspOrg1, req.query.userIdItem, 'org1.department1');
+		} catch (error2) {
+			console.log(`******** FAILED to run the application: ${error2}`);
+		}
+		const gateway = new Gateway();
+
+		try {
+			await gateway.connect(ccp, {
+				wallet,
+				identity: req.query.userIdItem,
+				discovery: { enabled: true, asLocalhost: true }
+			});
+			const network = await gateway.getNetwork(channelName);
+			const contract = network.getContract(chaincodeName);           
+
+			var i;
+			for (i = 0; i < req.query.itemNumber; i++) {
+				await contract.submitTransaction('CreateDataItem', i.toString() , i.toString());
+				console.log(Date.now() + "," + i.toString()+","+"submitted");
+			}
+			res.send('Transaction submitted...');
+		} finally {
+			gateway.disconnect();
+		}
+	} catch (error) {
+		res.send(`******** FAILED to Create DataItem: ${error}`);
+	}
+}
+
 const app = express();
 
 app.use(express.static('public'))
@@ -145,6 +185,10 @@ app.get('/init', (req, res) => {
 
 app.get('/readAllData', (req, res) => {
     readAllData(req, res);
+});
+
+app.get('/insertTransactions', (req, res) => {
+    insertTransactions(req, res);
 });
 
 app.listen(PORT, HOST);

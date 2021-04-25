@@ -87,3 +87,8 @@ Read all submitted data :
 ```bash
 http://localhost:49160/readAllData?userIdItem={Username}
 ```
+
+Run test :
+```bash
+http://localhost:49160/insertTransactions?userIdItem={Username}&itemNumber=3000
+```
