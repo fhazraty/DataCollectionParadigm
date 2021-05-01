@@ -218,7 +218,8 @@ services:
       - C:/Users/Farhad/go/src/github.com/fhazraty/fabric-samples:/fabric-samples
     depends_on:
       - peer0.org1.example.com
+      - peer0.org2.example.com
     networks:
       - test
     extra_hosts:
-      - "localhost:172.21.224.1"
+      - "localhost:172.27.144.1"

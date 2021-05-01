@@ -7,11 +7,13 @@ const { Gateway, Wallets } = require('fabric-network');
 const FabricCAServices = require('fabric-ca-client');
 const path = require('path');
 const { buildCAClient, registerAndEnrollUser, enrollAdmin } = require('/fabric-samples/test-application/javascript/CAUtil.js');
-const { buildCCPOrg1, buildWallet } = require('/fabric-samples/test-application/javascript/AppUtil.js');
+const { buildCCPOrg1,buildCCPOrg2, buildWallet } = require('/fabric-samples/test-application/javascript/AppUtil.js');
 const channelName = 'mychannel';
 const chaincodeName = 'datacollectionchaincode';
 const mspOrg1 = 'Org1MSP';
-const walletPath = path.join(__dirname, 'wallet');
+const mspOrg2 = 'Org2MSP';
+const walletPath = path.join(__dirname, 'wallet2');
+const walletPath3 = path.join(__dirname, 'wallet3');
 
 function prettyJSONString(inputString) {
 	return JSON.stringify(JSON.parse(inputString), null, 2);
@@ -86,18 +88,18 @@ async function init(req, res){
 }
 async function readAllData(req, res){
     try {
-		const ccp = buildCCPOrg1();
-		const caClient = buildCAClient(FabricCAServices, ccp, 'ca.org1.example.com');
-		const wallet = await buildWallet(Wallets, walletPath);
+		const ccp = buildCCPOrg2();
+		const caClient = buildCAClient(FabricCAServices, ccp, 'ca.org2.example.com');
+		const wallet = await buildWallet(Wallets, walletPath3);
 		try{
-			await enrollAdmin(caClient, wallet, mspOrg1);
+			await enrollAdmin(caClient, wallet, mspOrg2);
 		} catch (error2) {
-			console.log(`******** FAILED to run the application: ${error2}`);
+			console.log(`******** FAILED to run the application: ${error2} ---- line 96`);
 		}
 		try{
-			await registerAndEnrollUser(caClient, wallet, mspOrg1, req.query.userIdItem, 'org1.department1');
+			await registerAndEnrollUser(caClient, wallet, mspOrg2, req.query.userIdItem, 'org2.department1');
 		} catch (error2) {
-			console.log(`******** FAILED to run the application: ${error2}`);
+			console.log(`******** FAILED to run the application: ${error2} ---- line 101`);
 		}
 		const gateway = new Gateway();
 
@@ -109,7 +111,7 @@ async function readAllData(req, res){
 					discovery: { enabled: true, asLocalhost: true } // using asLocalhost as this gateway is using a fabric network deployed locally
 				});
 			} catch (error2) {
-				console.log(`******** FAILED to run the application: ${error2}`);
+				console.log(`******** FAILED to run the application: ${error2}  ---- line 113`);
 			}
             const network = await gateway.getNetwork(channelName);
 
@@ -122,7 +124,7 @@ async function readAllData(req, res){
 			gateway.disconnect();
 		}
 	} catch (error) {
-		console.log(`******** FAILED to run the application: ${error}`);
+		console.log(`******** FAILED to run the application: ${error}  ---- line 126`);
 	}
   console.log('End of read all data....');
 }
