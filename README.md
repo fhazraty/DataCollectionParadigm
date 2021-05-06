@@ -88,7 +88,19 @@ Read all submitted data :
 http://localhost:49160/readAllData?userIdItem={Username}
 ```
 
+Read all submitted data By event :
+```bash
+http://localhost:49160/readAllDataByEvent?userIdItem={Username}
+```
+
 Run test :
 ```bash
 http://localhost:49160/insertTransactions?userIdItem={Username}&itemNumber=3000
 ```
+
+
+To get into docker container to check other configuration :
+```bash
+docker exec -it docker_web_1 /bin/bash
+```
+

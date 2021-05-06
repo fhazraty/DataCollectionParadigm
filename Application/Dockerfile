@@ -14,6 +14,7 @@ COPY . .
 
 RUN apt-get update && apt-get install telnet
 RUN apt-get install -y net-tools
+RUN apt-get install -y vim
 
 # Expose port 8080 to outside docker container
 EXPOSE 8080

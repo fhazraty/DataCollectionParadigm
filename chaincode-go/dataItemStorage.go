@@ -43,7 +43,14 @@ func (s *SmartContract) CreateDataItem(ctx contractapi.TransactionContextInterfa
 	if err != nil {
 		return err
 	}
-	return ctx.GetStub().PutState(id, dataItemJSON)
+	
+	resultToReturn := ctx.GetStub().PutState(id, dataItemJSON);
+	
+	assetBuffer := []byte(dataItemJSON);
+
+	ctx.GetStub().SetEvent("CreateAsset", assetBuffer);
+
+	return resultToReturn;
 }
 
 func (s *SmartContract) ReadDataItem(ctx contractapi.TransactionContextInterface, id string) (*DataItem, error) {
