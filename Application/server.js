@@ -128,8 +128,6 @@ async function readAllData(req, res) {
 	}
 	console.log('End of read all data....');
 }
-
-
 async function readAllDataByEvent(req, res) {
 	try {
 		const ccp = buildCCPOrg2();
@@ -172,16 +170,18 @@ async function readAllDataByEvent(req, res) {
 				// In this case we know that the chaincode will always place the asset
 				// being worked with as the payload for all events produced.
 				const asset = JSON.parse(event.payload.toString());
-				console.log(`*** Contract Event Received: ${event.eventName} - ${JSON.stringify(asset)}`);
+				//console.log(`*** Contract Event Received: ${event.eventName} - ${JSON.stringify(asset)} received at:` + Date.now());
+				
+				console.log(Date.now() + "," + asset.ID.toString() + "," + "EventReceived");
 				// show the information available with the event
-				console.log(`*** Event: ${event.eventName}:${asset.ID}`);
+				//console.log(`*** Event: ${event.eventName}:${asset.ID}`);
 				// notice how we have access to the transaction information that produced this chaincode event
-				const eventTransaction = event.getTransactionEvent();
-				console.log(`*** transaction: ${eventTransaction.transactionId} status:${eventTransaction.status}`);
-				showTransactionData(eventTransaction.transactionData);
+				//const eventTransaction = event.getTransactionEvent();
+				//console.log(`*** transaction: ${eventTransaction.transactionId} status:${eventTransaction.status}`);
+				//showTransactionData(eventTransaction.transactionData);
 				// notice how we have access to the full block that contains this transaction
-				const eventBlock = eventTransaction.getBlockEvent();
-				console.log(`*** block: ${eventBlock.blockNumber.toString()}`);
+				//const eventBlock = eventTransaction.getBlockEvent();
+				//console.log(`*** block: ${eventBlock.blockNumber.toString()}`);
 			};
 
 			contract.addContractListener(listener);
@@ -207,7 +207,6 @@ function showTransactionData(transactionData) {
 		console.log(`    - arg:${chaincode.input.args[x].toString()}`);
 	}
 }
-
 async function insertTransactions(req, res) {
 		try {
 			const ccp = buildCCPOrg1();
@@ -236,8 +235,9 @@ async function insertTransactions(req, res) {
 
 				var i;
 				for (i = 0; i < req.query.itemNumber; i++) {
-					await contract.submitTransaction('CreateDataItem', i.toString(), i.toString());
 					console.log(Date.now() + "," + i.toString() + "," + "submitted");
+					await contract.submitTransaction('CreateDataItem', i.toString(), i.toString());
+					console.log(Date.now() + "," + i.toString() + "," + "confirmed");
 				}
 				res.send('Transaction submitted...');
 			} finally {
@@ -246,7 +246,7 @@ async function insertTransactions(req, res) {
 		} catch (error) {
 			res.send(`******** FAILED to Create DataItem: ${error}`);
 		}
-	}
+}
 
 	const app = express();
 
